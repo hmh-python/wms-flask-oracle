@@ -1,0 +1,13 @@
+{% extends 'show/common/base.html' %}
+{% block title %}
+    {{ super() }}——首页
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ current_user.name }} <small> —— 首页</small></h1>
+    </div>
+    <div>
+        <h3>中华大地,雨露滋润 <span class="label label-danger"><i class="glyphicon glyphicon-star"></i> </span></h3>
+        <h3>我们携手改变生活！ <span class="label label-danger"><i class="glyphicon glyphicon-star"></i> </span></h3>
+    </div>
+{% endblock %}

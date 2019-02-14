@@ -1,0 +1,87 @@
+{% extends 'show/common/base.html' %}
+{% import "macros/_patination.html" as page_macros %}
+{% block title %}
+    {{ super() }}——第二页
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        function downloadxls() {
+            var database = new Object();
+            database = {{ database|safe }};
+            var data = JSON.stringify(database);
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('show.download_xls', filename='%s_02.xls' % current_user.phone) }}",
+                contentType: "application/json; charset=utf-8",
+                data: data,
+                success: function (msg) {
+                    if (msg.data === 'ok'){
+                        //window.open("{{ url_for('show.static', filename='excel_files/%s_02.xls' % current_user.phone) }}");
+                        var $eleForm = $("<form method='get'></form>");
+                        $eleForm.attr("action", "{{ url_for('show.static', filename='excel_files/%s_02.xls' % current_user.phone) }}");
+                        $(document.body).append($eleForm);
+                        //提交表单，实现下载
+                        $eleForm.submit();
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ current_user.name }} <small> —— 第二页</small>
+        <a class="btn btn-xs btn-primary pull-right" type="button" title="导出报表"
+            onclick="downloadxls()"> 导出报表 </a>
+        </h1>
+    </div>
+    <div class="col-sm-12 col-lg-12" style="margin: 10px 0 10px 0 ">
+        <form method="post" role="form">
+            {{ searchForm.hidden_tag() }}
+            {% if current_user.role == 'admin' %}
+                <div class="col-sm-2 col-lg-2">{{ searchForm.name(class='form-control',  placeholder="使用员工") }}</div>
+                <div class="col-sm-2 col-lg-2">{{ searchForm.phone(class='form-control', placeholder="手机号") }}</div>
+            {%  endif %}
+            <div class="col-sm-2 col-lg-2">{{ searchForm.start_time(class='form-control', required="", placeholder="开始时间（2018-01）") }}</div>
+            <div class="col-sm-2 col-lg-2">{{ searchForm.end_time(class='form-control', required="", placeholder="结束时间（2018-01）") }}</div>
+            <div class="col-sm-2 col-lg-2 pull-right">{{ searchForm.submit(class='btn btn-block btn-primary') }}</div>
+        </form>
+    </div>
+    <div class="col-xs-12">
+        <table border="1" bordercolor="#ddd" class="table table-striped table-hover">
+            <thead>
+                <tr class="small">
+                    <th>序号</th>
+                    <th>部门</th>
+                    <th>角色</th>
+                    <th>员工</th>
+                    <th>电话</th>
+                    <th>月份</th>
+                    <th>箱数</th>
+                    <th>本月<br>箱数<br>总量</th>
+                    <th>上月<br>箱数<br>总量</th>
+                    <th>新增<br>吞吐量</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data.items %}
+                <tr>
+                    <th>{{ loop.index }}</th>
+                    <td>{{ d.department }}</td>
+                    <td>{{ d.role }}</td>
+                    <td>{{ d.staff_name }}</td>
+                    <td>{{ d.staff_phone }}</td>
+                    <th>{{ d.month }}</th>
+                    <td>{{ d.members }}</td>
+                    <td>{{ d.balance }}</td>
+                    <td>{{ d.last_balance }}</td>
+                    <td>{{ d.balance - d.last_balance }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ page_macros.pagination_widget(data, 'show._02') }}
+    </div>
+{% endblock %}
