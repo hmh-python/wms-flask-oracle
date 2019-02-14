@@ -194,7 +194,7 @@ def download_xls(filename):
     num = 0
     if '01.xls' in filename:
         header_data = ['序号', '部门', '角色', '员工', '电话', '客户', '月份',
-                       '本月资产余额	', '上月资产余额', '新增余额']
+                       '本月吞吐量	', '上月吞吐量', '新增吞吐量']
         body_data = [header_data]
         for t in json.loads(request.get_data()):
             num += 1
@@ -204,8 +204,8 @@ def download_xls(filename):
         data.update({'01报表': body_data})
 
     if '02.xls' in filename:
-        header_data = ['序号', '部门', '角色', '员工', '电话', '月份', '管户数'
-                       '本月资产余额	', '上月资产余额', '新增余额']
+        header_data = ['序号', '部门', '角色', '员工', '电话', '月份', '箱数'
+                       '本月箱数	', '上月箱数', '新增箱数']
         body_data = [header_data]
         for t in json.loads(request.get_data()):
             num += 1
