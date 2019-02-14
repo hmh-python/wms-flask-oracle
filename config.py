@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import os
-import hashlib
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,8 +11,7 @@ class Config(object):
     SQLALCHEMY_POOL_SIZE = 20
     SQLALCHEMY_POOL_TIMEOUT = 5 # 指定数据库连接池的超时时间。默认是10s。
     SQLALCHEMY_POOL_RECYCLE = 3000 # 配置连接池的 recyle 时间。默认是7200s。
-    # SECRET_KEY = os.environ.get('SECRET_KEY') or hashlib.new(name='md5',string='ousi keji hawk@#').hexdigest()
-    SECRET_KEY = 'hmh crvanguard 1q@w#e$R'
+    SECRET_KEY = 'hmh-crvanguard-1q@w#e$R'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     OUSI_POSTS_PER_PAGE = 20
@@ -26,7 +25,7 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-                            'oracle+cx_oracle://xxpost:%s@172.21.204.170:1521/orcl' % 'xxpost3710806#'
+                            'oracle+cx_oracle://xxxxuser:%s@138.10.198.223:1521/orcl' % 'xxxxpassword'
 
 
 class TestingConfig(Config):
