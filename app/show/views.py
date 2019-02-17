@@ -11,7 +11,7 @@ from sqlalchemy.orm import aliased
 from datetime import date
 import os
 from collections import OrderedDict
-from config import basedir
+from config import basedir,conn
 from pyexcel_xls import save_data, get_data
 
 
@@ -112,6 +112,13 @@ def _01():
                                          g1.name.label('guest_name'), g1.month, g1.balance)
     data = database.paginate(page, per_page=current_app.config['OUSI_POSTS_PER_PAGE'], error_out=False)
 
+    cur = conn.cursor()
+    sql = "SELECT * FROM text"
+    cur.execute(sql)
+    cur.close()
+    conn.commit()
+    conn.close()
+
     return render_template('show/01.html', data=data, searchForm=search_form, database=json.dumps(database, cls=AlchemyJsonEncoder))
 
 
@@ -183,6 +190,12 @@ def _02():
 
     return render_template('show/02.html', data=data, searchForm=search_form, database=json.dumps(database, cls=AlchemyJsonEncoder))
 
+    cur = conn.cursor()
+    sql = "SELECT * FROM text"
+    cur.execute(sql)
+    cur.close()
+    conn.commit()
+    conn.close()
 
 excel_path = os.path.join(basedir, 'app/show/static/excel_files/')
 

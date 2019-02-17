@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
 
 import os
+import cx_Oracle
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+conn = cx_Oracle.connect('xxxxuser/xxxxpassword@138.10.198.223:1521/orcl')
 
 
 class Config(object):
